@@ -66,7 +66,7 @@ namespace Game3
 
         public void createHeightMap(string map,int width , int height)
         {
-            string[] strArr = map.Substring(1,map.Length-2).Split(",",StringSplitOptions.None);
+            /*string[] strArr = map.Substring(1,map.Length-2).Split(",",StringSplitOptions.None);
             for (int i = 0; i < width; i++)
             {
                 for( int j = 0; j < height; j++)
@@ -76,7 +76,7 @@ namespace Game3
 
                     }
                 }
-            }
+            }*/
         }
     }
 }
