@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="Map">
+  	<Tiles>
+  		1 1 1 1 1 1 1
+  		1 0 0 0 0 0 1
+  		1 1 1 1 1 1 1
+  		1 2 1 2 1 2 1
+  		2 2 2 2 2 2 2
+  	</Tiles>
+  </Asset>
+</XnaContent>
