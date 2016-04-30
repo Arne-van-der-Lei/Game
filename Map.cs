@@ -15,14 +15,19 @@ namespace Game3
         public int[,] IdTiles { get; set; }
         public Texture2D Texture { get; set; }
 
+        public Tileset TextureInfo;
+
         public VertexPositionTexture[] mesh;
         public void generate()
         {
             Hitbox = new int[Tiles.GetLength(0)-1,Tiles.GetLength(1)-1];
             mesh = new VertexPositionTexture[Tiles.GetLength(0) * Tiles.GetLength(1) * 6];
             int width = Tiles.GetLength(0);
-            float withTile = 0.25f, HeightTile = 0.1428f;
+            int coloms = TextureInfo.imagewidth / TextureInfo.tilewidth;
+            int rows = TextureInfo.imageheight / TextureInfo.tileheight;
+            float withTile = 1.0f / coloms, HeightTile = 1.0f / rows;
             int currentId;
+
             for (int i = 0; i < Tiles.GetUpperBound(0); i++)
             {
                 for (int j = 0; j < Tiles.GetUpperBound(1); j++)
@@ -37,12 +42,12 @@ namespace Game3
                         mesh[(j * width + i) * 6 + 5].Position = new Vector3(j + 1,  Tiles[i + 1, j + 1], i + 1);
                         mesh[(j * width + i) * 6 + 4].Position = new Vector3(j + 1,  Tiles[i , j + 1]   , i);
 
-                        mesh[(j * width + i) * 6].TextureCoordinate     = new Vector2((currentId % 4) * withTile            , (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 1].TextureCoordinate = new Vector2((currentId % 4) * withTile + withTile , (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 2].TextureCoordinate = new Vector2((currentId % 4) * withTile            , (currentId / 4) * HeightTile  + HeightTile);
-                        mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % 4) * withTile            , (currentId / 4) * HeightTile  + HeightTile);
-                        mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % 4) * withTile + withTile , (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % 4) * withTile + withTile , (currentId / 4) * HeightTile  + HeightTile);
+                        mesh[(j * width + i) * 6].TextureCoordinate     = new Vector2((currentId % coloms) * withTile            , (currentId /coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 1].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 2].TextureCoordinate = new Vector2((currentId % coloms) * withTile            , (currentId /coloms) * HeightTile  + HeightTile);
+                        mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % coloms) * withTile            , (currentId /coloms) * HeightTile  + HeightTile);
+                        mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile  + HeightTile);
                     }
                     else
                     {
@@ -53,12 +58,12 @@ namespace Game3
                         mesh[(j * width + i) * 6 + 5].Position = new Vector3(j    ,  Tiles[i + 1, j]    , i + 1);
                         mesh[(j * width + i) * 6 + 4].Position = new Vector3(j + 1,  Tiles[i + 1, j + 1], i + 1);
                         
-                        mesh[(j * width + i) * 6].TextureCoordinate     = new Vector2((currentId % 4) * withTile + withTile, (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 1].TextureCoordinate = new Vector2((currentId % 4) * withTile + withTile, (currentId / 4) * HeightTile + HeightTile);
-                        mesh[(j * width + i) * 6 + 2].TextureCoordinate = new Vector2((currentId % 4) * withTile           , (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % 4) * withTile           , (currentId / 4) * HeightTile);
-                        mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % 4) * withTile + withTile, (currentId / 4) * HeightTile + HeightTile);
-                        mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % 4) * withTile           , (currentId / 4) * HeightTile + HeightTile);
+                        mesh[(j * width + i) * 6].TextureCoordinate     = new Vector2((currentId % coloms) * withTile + withTile, (currentId / coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 1].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile, (currentId / coloms) * HeightTile + HeightTile);
+                        mesh[(j * width + i) * 6 + 2].TextureCoordinate = new Vector2((currentId % coloms) * withTile           , (currentId / coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % coloms) * withTile           , (currentId / coloms) * HeightTile);
+                        mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile, (currentId / coloms) * HeightTile + HeightTile);
+                        mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % coloms) * withTile           , (currentId / coloms) * HeightTile + HeightTile);
                     }
 
                     Hitbox[i, j] = Tiles[i, j] == Tiles[i + 1, j]  && Tiles[i, j + 1] == Tiles[i + 1, j + 1] && Tiles[i, j] == Tiles[i + 1, j + 1] ? 0 : 1 ;
@@ -66,7 +71,7 @@ namespace Game3
             }
         }
 
-        public void createHeightMap(Tilesets tileset, int width , int height)
+        public void createHeightMap(int width , int height)
         {
             Tiles = new int[width + 1, height + 1];
             Tiles[0, 0] = 0;
@@ -82,53 +87,69 @@ namespace Game3
                             Tiles[i + 1, j + 1] = Tiles[i, j] + 1;
                             break;
                         case 2:
-                        case 3:
+                        case 17:
                             Tiles[i + 1, j] = Tiles[i, j] + 1;
                             Tiles[i, j + 1] = Tiles[i, j] ;
                             Tiles[i + 1, j + 1] = Tiles[i, j] + 1;
                             break;
-                        case 4:
+                        case 3:
                             Tiles[i + 1, j] = Tiles[i, j] + 1;
                             Tiles[i, j + 1] = Tiles[i, j];
                             Tiles[i + 1, j + 1] = Tiles[i, j];
                             break;
-                        case 5:
-                        case 9:
+                        case 4:
+                        case 15:
                             Tiles[i + 1, j] = Tiles[i, j];
                             Tiles[i, j + 1] = Tiles[i, j] + 1;
                             Tiles[i + 1, j + 1] = Tiles[i, j] + 1;
                             break;
-                        case 6:
-                        case 7:
-                        case 10:
-                        case 11:
+                        case 5:
                             Tiles[i + 1, j] = Tiles[i, j];
                             Tiles[i, j + 1] = Tiles[i, j];
                             Tiles[i + 1, j + 1] = Tiles[i, j];
                             break;
-                        case 8:
-                        case 12:
+                        case 6:
+                        case 13:
                             Tiles[i + 1, j] = Tiles[i, j];
                             Tiles[i, j + 1] = Tiles[i, j] - 1;
                             Tiles[i + 1, j + 1] = Tiles[i, j] - 1;
                             break;
-                        case 13:
+                        case 7:
                             Tiles[i + 1, j] = Tiles[i, j];
                             Tiles[i, j + 1] = Tiles[i, j] + 1;
                             Tiles[i + 1, j + 1] = Tiles[i, j] ;
                             break;
-                        case 14:
-                        case 15:
+                        case 8:
+                        case 11:
                             Tiles[i + 1, j] = Tiles[i, j] - 1;
                             Tiles[i, j + 1] = Tiles[i, j] ;
                             Tiles[i + 1, j + 1] = Tiles[i, j] - 1;
                             break;
-                        case 16:
+                        case 9:
                             Tiles[i + 1, j] = Tiles[i, j] - 1;
                             Tiles[i, j + 1] = Tiles[i, j] - 1;
                             Tiles[i + 1, j + 1] = Tiles[i, j] -1;
                             break;
-
+                        case 10:
+                            Tiles[i + 1, j] = Tiles[i, j] ;
+                            Tiles[i, j + 1] = Tiles[i, j] ;
+                            Tiles[i + 1, j + 1] = Tiles[i, j] - 1;
+                            break;
+                        case 12:
+                            Tiles[i + 1, j] = Tiles[i, j] - 1;
+                            Tiles[i, j + 1] = Tiles[i, j];
+                            Tiles[i + 1, j + 1] = Tiles[i, j];
+                            break;
+                        case 16:
+                            Tiles[i + 1, j] = Tiles[i, j];
+                            Tiles[i, j + 1] = Tiles[i, j] - 1;
+                            Tiles[i + 1, j + 1] = Tiles[i, j];
+                            break;
+                        case 18:
+                            Tiles[i + 1, j] = Tiles[i, j] + 1;
+                            Tiles[i, j + 1] = Tiles[i, j] + 1;
+                            Tiles[i + 1, j + 1] = Tiles[i, j] + 1;
+                            break;
                     }
                 }
             }
@@ -141,15 +162,27 @@ namespace Game3
 
             IdTiles = new int[width, height];
 
-            Layers layer = obj.layers[0];
+            Layer layer = obj.layers[1];
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    IdTiles[j, i] = layer.data[j * height + i];
+                    IdTiles[j, i] = layer.data[j * height + i] - obj.tilesets[1].firstgid + 1;
                 }
             }
-            createHeightMap(obj.tilesets[0],width,height);
+            createHeightMap(width, height);
+
+            layer = obj.layers[0];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    IdTiles[j, i] = layer.data[j * height + i] - obj.tilesets[0].firstgid + 1;
+                }
+            }
+
+            TextureInfo = obj.tilesets[0];
+            generate();
         }
     }
 }

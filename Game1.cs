@@ -19,10 +19,6 @@ namespace Game3
         Map map;
         int distance;
         Vector3 avatarPos;
-        bool down;
-        bool right;
-        bool left;
-        bool up;
 
         public Game1()
         {
@@ -66,36 +62,6 @@ namespace Game3
             ava[4].Color = new Color(127, 127, 127);
             ava[5].Color = new Color(127, 127, 127);
 
-            //init mapdata -> moet nog geport worden naar file
-            map = new Map();
-            /*map.Tiles = new int[,]
-            {
-                {2 , 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1},
-                {1 , 1, 1, 1, 1, 2, 2, 1, 0, 0, 0, 1},
-                {1 , 0, 0, 0, 1, 2, 2, 1, 0, 0, 0, 1},
-                {1 , 0, 0, 0, 1, 2, 2, 1, 0, 0, 1, 1},
-                {1 , 0, 0, 0, 1, 2, 2, 1, 0, 0, 1, 1},
-                {1 , 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1},
-                {1 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1 , 0,-1,-1, 0, 1, 1, 1, 1, 1, 1, 1},
-                {1 , 0,-1,-1, 0, 1, 2, 2, 2, 2, 2, 2}
-            };
-            map.IdTiles = new int[,]
-            {
-                {2 ,2 ,2 ,2 ,3 ,5 ,4 ,0 ,2 ,2 ,3 },
-                {0 ,2 ,2 ,3 ,7 ,5 ,4 ,4 ,5 ,5 ,7 },
-                {4 ,9 ,6 ,7 ,7 ,5 ,4 ,4 ,6 ,0 ,15},
-                {4 ,6 ,5 ,7 ,7 ,5 ,4 ,4 ,5 ,7 ,5 },
-                {4 ,5 ,5 ,7 ,0 ,2 ,0 ,4 ,5 ,0 ,3 },
-                {4 ,5 ,9 ,0 ,2 ,2 ,2 ,0 ,5 ,5 ,7 },
-                {4 ,9 ,5 ,5 ,6 ,5 ,10,5 ,6 ,5 ,7 }, 
-                {4 ,5 ,6 ,5 ,5 ,9 ,5 ,6 ,5 ,5 ,7 },
-                {12,2 ,13,3 ,0 ,13,13,13,13,13,15},
-                {4 ,4 ,5 ,7 ,7 ,13,13,13,13,13,15}
-            };*/
-
 
             //avatar + cam ofset
             distance = 3;
@@ -118,9 +84,11 @@ namespace Game3
             String jsonString = File.ReadAllText("content/map_1.json");
             MapTiled maptiled = JsonConvert.DeserializeObject<MapTiled>(jsonString);
 
+
+            //init mapdata
+            map = new Map();
             map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
             map.initialize(maptiled);
-            map.generate();
 
 
             avatarPos = new Vector3(5.5f, map.Tiles[6,6], 5.5f);

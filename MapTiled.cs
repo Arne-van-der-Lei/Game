@@ -10,19 +10,21 @@ namespace Game3
     {
         public int height;
         public int width;
-        public Tilesets[] tilesets;
-        public Layers[] layers;
+        public Tileset[] tilesets;
+        public Layer[] layers;
     }
 
-    public class Tilesets
+    public class Tileset
     {
         public string name;
         public int tileheight;
         public int tilewidth;
-        public int firstgrid;
+        public int imagewidth;
+        public int imageheight;
+        public int firstgid;
     }
 
-    public class Layers
+    public class Layer
     {
         public int[] data;
         public int x;
