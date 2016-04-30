@@ -91,7 +91,7 @@ namespace Game3
             map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
             map.initialize(maptiled);
             
-            avatar.avatarPos = new Vector3(7.5f, map.Tiles[8, 8], 7.5f);
+            avatar.avatarPos = new Vector3(9.5f, map.Tiles[10, 10], 9.5f);
             //effect = Content.Load<Effect>("shader");
             //map = Content.Load<Map>("map");
         }
