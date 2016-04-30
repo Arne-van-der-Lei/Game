@@ -31,18 +31,6 @@
 #begin map_1.json
 /copy:map_1.json
 
-#begin tiles_01.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles_01.png
-
 #begin Sprites/Characters_NPCs/Main_char_placeholder.png
 /importer:TextureImporter
 /processor:TextureProcessor
