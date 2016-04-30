@@ -124,7 +124,7 @@ namespace Game3
             {
                 if(map.Hitbox[(int)(avatarPos.Z+.45f), (int)(avatarPos.X + .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z-.45f), (int)(avatarPos.X + .5f)] == 0)
                 {
-                    avatarPos.X += 4f*(float)gameTime.ElapsedGameTime.TotalSeconds;
+                    avatarPos.X += 2f*(float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
 
@@ -132,7 +132,7 @@ namespace Game3
             {
                 if (map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X +.45f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X - .45f)] == 0)
                 {
-                    avatarPos.Z -= 4f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    avatarPos.Z -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
 
@@ -140,7 +140,7 @@ namespace Game3
             {
                 if (map.Hitbox[(int)(avatarPos.Z + .45f), (int)(avatarPos.X - .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .45f), (int)(avatarPos.X - .5f)] == 0)
                 {
-                    avatarPos.X -= 4f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    avatarPos.X -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
 
@@ -148,7 +148,7 @@ namespace Game3
             {
                 if (map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X - .45f)] == 0 && map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X + .45f)] == 0)
                 {
-                    avatarPos.Z += 4f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    avatarPos.Z += 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
 
