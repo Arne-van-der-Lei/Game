@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Avatar.cs" />
     <Compile Include="MapTiled.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Game1.cs" />

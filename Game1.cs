@@ -15,11 +15,10 @@ namespace Game3
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         BasicEffect effect;
-        VertexPositionColor[] ava;
         Map map;
         int distance;
-        Vector3 avatarPos;
 
+        Avatar avatar;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,22 +44,24 @@ namespace Game3
             GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
 
             //avatar model
-            ava = new VertexPositionColor[6];
-            ava[0].Position = new Vector3(-.5f, 1f, -.5f);
-            ava[1].Position = new Vector3( .5f, 1f, -.5f);
-            ava[2].Position = new Vector3(-.5f, 0f,  .5f);
 
-            ava[3].Position = new Vector3( .5f, 1f, -.5f);
-            ava[4].Position = new Vector3( .5f, 0f,  .5f);
-            ava[5].Position = new Vector3(-.5f, 0f,  .5f);
+            avatar = new Avatar();
+            avatar.mesh = new VertexPositionTexture[6];
+            avatar.mesh[0].Position = new Vector3(-.5f, 1f, -.5f);
+            avatar.mesh[1].Position = new Vector3( .5f, 1f, -.5f);
+            avatar.mesh[2].Position = new Vector3(-.5f, 0f,  .5f);
 
-            ava[0].Color = new Color(127, 127, 127);
-            ava[1].Color = new Color(127, 127, 127);
-            ava[2].Color = new Color(127, 127, 127);
+            avatar.mesh[3].Position = new Vector3( .5f, 1f, -.5f);
+            avatar.mesh[4].Position = new Vector3( .5f, 0f,  .5f);
+            avatar.mesh[5].Position = new Vector3(-.5f, 0f,  .5f);
 
-            ava[3].Color = new Color(127, 127, 127);
-            ava[4].Color = new Color(127, 127, 127);
-            ava[5].Color = new Color(127, 127, 127);
+            /*avatar.mesh[0].Color = new Color(127, 127, 127);
+            avatar.mesh[1].Color = new Color(127, 127, 127);
+            avatar.mesh[2].Color = new Color(127, 127, 127);
+
+            avatar.mesh[3].Color = new Color(127, 127, 127);
+            avatar.mesh[4].Color = new Color(127, 127, 127);
+            avatar.mesh[5].Color = new Color(127, 127, 127);*/
 
 
             //avatar + cam ofset
@@ -89,10 +90,8 @@ namespace Game3
             map = new Map();
             map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
             map.initialize(maptiled);
-
-
-            avatarPos = new Vector3(5.5f, map.Tiles[6,6], 5.5f);
-
+            
+            avatar.avatarPos = new Vector3(7.5f, map.Tiles[8, 8], 7.5f);
             //effect = Content.Load<Effect>("shader");
             //map = Content.Load<Map>("map");
         }
@@ -118,39 +117,9 @@ namespace Game3
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            avatar.Tick(gameTime, map);
             
-            //movement
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                if(map.Hitbox[(int)(avatarPos.Z+.45f), (int)(avatarPos.X + .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z-.45f), (int)(avatarPos.X + .5f)] == 0)
-                {
-                    avatarPos.X += 2f*(float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X +.45f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X - .45f)] == 0)
-                {
-                    avatarPos.Z -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z + .45f), (int)(avatarPos.X - .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .45f), (int)(avatarPos.X - .5f)] == 0)
-                {
-                    avatarPos.X -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X - .45f)] == 0 && map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X + .45f)] == 0)
-                {
-                    avatarPos.Z += 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
 
             base.Update(gameTime);
         }
@@ -163,8 +132,8 @@ namespace Game3
         {
             GraphicsDevice.Clear(Color.Black);
 
-            var cameraPosition = new Vector3(avatarPos.X, avatarPos.Y + distance + 1, avatarPos.Z + distance);
-            var cameraLookAtVector = avatarPos;
+            var cameraPosition = new Vector3(avatar.avatarPos.X, avatar.avatarPos.Y + distance + 1, avatar.avatarPos.Z + distance);
+            var cameraLookAtVector = avatar.avatarPos;
             var cameraUpVector = Vector3.Up;
 
             effect.View = Matrix.CreateLookAt(cameraPosition, cameraLookAtVector, cameraUpVector);
@@ -196,11 +165,12 @@ namespace Game3
 
         void DrawAvatar()
         {
-            effect.World = Matrix.CreateTranslation(avatarPos);
+
+            effect.World = Matrix.CreateTranslation(avatar.avatarPos);
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, ava, 0, ava.GetLength(0) / 3);
+                graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, avatar.mesh, 0, avatar.mesh.GetLength(0) / 3);
             }
         }
     }

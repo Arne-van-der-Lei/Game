@@ -24,7 +24,7 @@
         }],
  "nextobjectid":1,
  "orientation":"orthogonal",
- "renderorder":"right-down",
+ "renderorder":"left-down",
  "tileheight":16,
  "tilesets":[
         {
