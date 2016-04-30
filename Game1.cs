@@ -117,40 +117,8 @@ namespace Game3
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
-            //movement
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                if(map.Hitbox[(int)(avatarPos.Z+.45f), (int)(avatarPos.X + .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z-.45f), (int)(avatarPos.X + .5f)] == 0)
-                {
-                    avatarPos.X += 2f*(float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X +.45f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .5f), (int)(avatarPos.X - .45f)] == 0)
-                {
-                    avatarPos.Z -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z + .45f), (int)(avatarPos.X - .5f)] == 0 && map.Hitbox[(int)(avatarPos.Z - .45f), (int)(avatarPos.X - .5f)] == 0)
-                {
-                    avatarPos.X -= 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                if (map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X - .45f)] == 0 && map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X + .45f)] == 0)
-                {
-                    avatarPos.Z += 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-            }
-
+            avatar.Tick(gameTime, map);
             base.Update(gameTime);
         }
 
