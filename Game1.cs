@@ -98,7 +98,6 @@ namespace Game3
 
 
             //avatar + cam ofset
-            avatarPos = new Vector3(5.5f, 4, 5.5f);
             distance = 3;
 
             //shader
@@ -116,12 +115,15 @@ namespace Game3
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //map generation + textue setting
-            String jsonString = File.ReadAllText("content/map.json");
+            String jsonString = File.ReadAllText("content/map_1.json");
             MapTiled maptiled = JsonConvert.DeserializeObject<MapTiled>(jsonString);
 
             map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
             map.initialize(maptiled);
             map.generate();
+
+
+            avatarPos = new Vector3(5.5f, map.Tiles[6,6], 5.5f);
 
             //effect = Content.Load<Effect>("shader");
             //map = Content.Load<Map>("map");

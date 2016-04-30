@@ -28,3 +28,6 @@
 #begin map.json
 /copy:map.json
 
+#begin map_1.json
+/copy:map_1.json
+
