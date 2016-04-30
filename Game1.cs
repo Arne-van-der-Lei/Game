@@ -146,7 +146,8 @@ namespace Game3
 
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X - .45f)] == 0 && map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X + .45f)] == 0)
+                 if (map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X - .45f)] == 0 && map.Hitbox[(int)(avatarPos.Z + .5f), (int)(avatarPos.X + .45f)] == 0)
+                 
                 {
                     avatarPos.Z += 2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
