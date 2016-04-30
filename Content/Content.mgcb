@@ -25,3 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:Tiles_0.png
 
+#begin map.json
+/copy:map.json
+
