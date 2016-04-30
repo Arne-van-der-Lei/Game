@@ -73,7 +73,7 @@ namespace Game3
 
         public void createHeightMap(int width , int height)
         {
-            Tiles = new int[width + 1, height + 1];
+            Tiles = new int[height + 1, width + 1];
             Tiles[0, 0] = 0;
             for (int i = 0; i < height; i++)
             {
@@ -160,14 +160,14 @@ namespace Game3
             int width = obj.width;
             int height = obj.height;
 
-            IdTiles = new int[width, height];
+            IdTiles = new int[height, width];
 
             Layer layer = obj.layers[1];
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    IdTiles[j, i] = layer.data[j * height + i] - obj.tilesets[1].firstgid + 1;
+                    IdTiles[i, j] = layer.data[i * height + j] - obj.tilesets[1].firstgid + 1;
                 }
             }
             createHeightMap(width, height);
@@ -177,7 +177,7 @@ namespace Game3
             {
                 for (int j = 0; j < width; j++)
                 {
-                    IdTiles[j, i] = layer.data[j * height + i] - obj.tilesets[0].firstgid + 1;
+                    IdTiles[i, j] = layer.data[i * height + j] - obj.tilesets[0].firstgid + 1;
                 }
             }
 
