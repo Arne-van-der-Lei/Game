@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -67,7 +68,7 @@ namespace Game3
 
             //init mapdata -> moet nog geport worden naar file
             map = new Map();
-            map.Tiles = new int[,]
+            /*map.Tiles = new int[,]
             {
                 {2 , 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1},
                 {1 , 1, 1, 1, 1, 2, 2, 1, 0, 0, 0, 1},
@@ -93,11 +94,11 @@ namespace Game3
                 {4 ,5 ,6 ,5 ,5 ,9 ,5 ,6 ,5 ,5 ,7 },
                 {12,2 ,13,3 ,0 ,13,13,13,13,13,15},
                 {4 ,4 ,5 ,7 ,7 ,13,13,13,13,13,15}
-            };
+            };*/
 
 
             //avatar + cam ofset
-            avatarPos = new Vector3(1.5f, 0, 2.5f);
+            avatarPos = new Vector3(5.5f, 4, 5.5f);
             distance = 3;
 
             //shader
@@ -113,9 +114,13 @@ namespace Game3
         {
             //spritebatch for 2d stuff
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             //map generation + textue setting
-            map.Texture = Content.Load<Texture2D>("Tiles_0");
+            String jsonString = File.ReadAllText("content/map.json");
+            MapTiled maptiled = JsonConvert.DeserializeObject<MapTiled>(jsonString);
+
+            map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
+            map.initialize(maptiled);
             map.generate();
 
             //effect = Content.Load<Effect>("shader");
