@@ -9,7 +9,7 @@
 
 matrix WorldViewProjection;
 sampler TextureSampler : register(s0);
-float4 sunColor;
+int sunColor;
 
 struct VertexShaderInput
 {
@@ -38,8 +38,10 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	input.Color = tex2D(TextureSampler,input.Texture.xy);
-	input.Color *= sunColor;
+	input.Color = tex2D(TextureSampler, input.Texture.xy);
+	float alpha = input.Color.w;
+	input.Color = max(0.1,min((sunColor/(60.0*60.0*6.0)),1))* input.Color;
+	input.Color.w = alpha;
 	return input.Color;
 }
 

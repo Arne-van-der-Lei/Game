@@ -17,11 +17,11 @@ namespace Game3
 
         public Tileset TextureInfo;
 
-        public VertexPositionTexture[] mesh;
+        public VertexPositionNormalTexture[] mesh;
         public void generate()
         {
             Hitbox = new int[Tiles.GetLength(0)-1,Tiles.GetLength(1)-1];
-            mesh = new VertexPositionTexture[Tiles.GetLength(0) * Tiles.GetLength(1) * 6];
+            mesh = new VertexPositionNormalTexture[Tiles.GetLength(0) * Tiles.GetLength(1) * 6];
             int width = Tiles.GetLength(0);
             int coloms = TextureInfo.imagewidth / TextureInfo.tilewidth;
             int rows = TextureInfo.imageheight / TextureInfo.tileheight;

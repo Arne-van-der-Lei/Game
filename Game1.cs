@@ -19,6 +19,8 @@ namespace Game3
         int distance;
         Avatar avatar;
         Effect effectOur;
+        int sunKelvin;
+        bool sunbool;
 
         public Game1()
         {
@@ -67,6 +69,8 @@ namespace Game3
             //avatar + cam ofset
             distance = 3;
 
+            sunKelvin = 60*60*6;
+            sunbool = true;
             //shader
             effect = new BasicEffect(GraphicsDevice);
             base.Initialize();
@@ -120,6 +124,25 @@ namespace Game3
                 Exit();
 
             avatar.Tick(gameTime, map);
+
+            if (sunbool == true)
+            {
+                sunKelvin++;
+            }
+            else
+            {
+                sunKelvin--;
+            }
+
+            if(sunKelvin == 60*60*12)
+            {
+                sunbool = false;
+            }
+            if(sunKelvin == 0)
+            {
+                sunbool = true;
+            }
+
             base.Update(gameTime);
         }
 
@@ -152,7 +175,7 @@ namespace Game3
         {
             effectOur.Parameters["WorldViewProjection"].SetValue(effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(map.Texture);
-            effectOur.Parameters["sunColor"].SetValue(new Vector4(1f,1f,1f,1f));
+            effectOur.Parameters["sunColor"].SetValue(sunKelvin);
             foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
                 pass.Apply();
@@ -162,7 +185,6 @@ namespace Game3
 
         void DrawAvatar()
         {
-
             effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos) * effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(avatar.texture);
             foreach (var pass in effectOur.CurrentTechnique.Passes)
