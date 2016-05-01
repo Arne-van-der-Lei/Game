@@ -17,8 +17,9 @@ namespace Game3
         BasicEffect effect;
         Map map;
         int distance;
-
         Avatar avatar;
+        Effect effectOur;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -55,13 +56,12 @@ namespace Game3
             avatar.mesh[4].Position = new Vector3( .5f, 0f,  .5f);
             avatar.mesh[5].Position = new Vector3(-.5f, 0f,  .5f);
 
-            /*avatar.mesh[0].Color = new Color(127, 127, 127);
-            avatar.mesh[1].Color = new Color(127, 127, 127);
-            avatar.mesh[2].Color = new Color(127, 127, 127);
-
-            avatar.mesh[3].Color = new Color(127, 127, 127);
-            avatar.mesh[4].Color = new Color(127, 127, 127);
-            avatar.mesh[5].Color = new Color(127, 127, 127);*/
+            avatar.mesh[0].TextureCoordinate = new Vector2(0f, 0f);
+            avatar.mesh[1].TextureCoordinate = new Vector2(1f, 0f);
+            avatar.mesh[2].TextureCoordinate = new Vector2(0f, 1f);
+            avatar.mesh[3].TextureCoordinate = new Vector2(0f, 1f);
+            avatar.mesh[4].TextureCoordinate = new Vector2(1f, 1f);
+            avatar.mesh[5].TextureCoordinate = new Vector2(1f, 0f);
 
 
             //avatar + cam ofset
@@ -92,8 +92,9 @@ namespace Game3
             map.initialize(maptiled);
             
             avatar.avatarPos = new Vector3(9.5f, map.Tiles[10, 10], 9.5f);
-            //effect = Content.Load<Effect>("shader");
-            //map = Content.Load<Map>("map");
+            avatar.texture = Content.Load<Texture2D>("Sprites\\Characters_NPCs\\Main_char_placeholder");
+            effectOur = Content.Load<Effect>("Shaders\\BasicShader");
+            
         }
 
         /// <summary>
@@ -149,12 +150,10 @@ namespace Game3
 
         void DrawGround()
         {
-            effect.TextureEnabled = true;
-            effect.Texture = map.Texture;
-
-            //draw map
-            effect.World = Matrix.CreateTranslation(0, 0, 0);
-            foreach (var pass in effect.CurrentTechnique.Passes)
+            effectOur.Parameters["WorldViewProjection"].SetValue(effect.View * effect.Projection);
+            effectOur.Parameters["TextureSampler"].SetValue(map.Texture);
+            effectOur.Parameters["sunColor"].SetValue(new Vector4(1f,1f,1f,1f));
+            foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,map.mesh,0,map.mesh.GetLength(0)/3);
@@ -164,7 +163,8 @@ namespace Game3
         void DrawAvatar()
         {
 
-            effect.World = Matrix.CreateTranslation(avatar.avatarPos);
+            effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos)*effect.View * effect.Projection);
+            effectOur.Parameters["TextureSampler"].SetValue(avatar.texture);
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
