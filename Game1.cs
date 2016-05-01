@@ -59,9 +59,9 @@ namespace Game3
             avatar.mesh[0].TextureCoordinate = new Vector2(0f, 0f);
             avatar.mesh[1].TextureCoordinate = new Vector2(1f, 0f);
             avatar.mesh[2].TextureCoordinate = new Vector2(0f, 1f);
-            avatar.mesh[3].TextureCoordinate = new Vector2(0f, 1f);
+            avatar.mesh[3].TextureCoordinate = new Vector2(1f, 0f);
             avatar.mesh[4].TextureCoordinate = new Vector2(1f, 1f);
-            avatar.mesh[5].TextureCoordinate = new Vector2(1f, 0f);
+            avatar.mesh[5].TextureCoordinate = new Vector2(0f, 1f);
 
 
             //avatar + cam ofset
@@ -163,9 +163,9 @@ namespace Game3
         void DrawAvatar()
         {
 
-            effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos)*effect.View * effect.Projection);
+            effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos) * effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(avatar.texture);
-            foreach (var pass in effect.CurrentTechnique.Passes)
+            foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
                 pass.Apply();
                 graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, avatar.mesh, 0, avatar.mesh.GetLength(0) / 3);
