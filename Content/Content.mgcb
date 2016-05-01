@@ -43,3 +43,9 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Characters_NPCs/Main_char_placeholder.png
 
+#begin Shaders\BasicShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders\BasicShader.fx
+
