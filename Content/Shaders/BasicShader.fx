@@ -10,12 +10,14 @@
 matrix WorldViewProjection;
 sampler TextureSampler : register(s0);
 int sunColor;
+float4 sunNormal;
 
 struct VertexShaderInput
 {
 	float4 Position : SV_POSITION;
 	float4 Color : COLOR0;
 	float2 Texture : TEXCOORD0;
+	float4 Normal : NORMAL0;
 };
 
 struct VertexShaderOutput
@@ -32,20 +34,23 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 	output.Position = mul(input.Position, WorldViewProjection);
 	output.Color = input.Color;
 	output.Texture = input.Texture;
-
+	output.Color = input.Normal;
 	return output;
 }
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
+	float4 normal = input.Color;
 	input.Color = tex2D(TextureSampler, input.Texture.xy);
 	float alpha = input.Color.w;
-	input.Color = max(0.1,min((sunColor/(60.0*60.0*6.0)),1))* input.Color;
+	float intensety = sunColor / (60.0*60.0*6.0);
+	input.Color = max(0.1, min((intensety), 1))* input.Color;
+	input.Color = input.Color * max(0.1,dot(normal, sunNormal * -1));
 	input.Color.w = alpha;
 	return input.Color;
 }
 
-technique BasicColorDrawing
+technique gameShaderBase
 {
 	pass P0
 	{
