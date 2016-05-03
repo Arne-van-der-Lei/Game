@@ -13,9 +13,36 @@ namespace Game3
     {
 
         public Vector3 avatarPos;
-        public VertexPositionTexture[] mesh;
+        public VertexPositionNormalTexture[] mesh;
         public Texture2D texture;
         public float speed = 4f;
+
+        public Avatar()
+        {
+
+            mesh = new VertexPositionNormalTexture[6];
+            mesh[0].Position = new Vector3(-.5f, 1f, -.5f);
+            mesh[1].Position = new Vector3(.5f, 1f, -.5f);
+            mesh[2].Position = new Vector3(-.5f, 0f, .5f);
+
+            mesh[3].Position = new Vector3(.5f, 1f, -.5f);
+            mesh[4].Position = new Vector3(.5f, 0f, .5f);
+            mesh[5].Position = new Vector3(-.5f, 0f, .5f);
+
+            mesh[0].TextureCoordinate = new Vector2(0f, 0f);
+            mesh[1].TextureCoordinate = new Vector2(1f, 0f);
+            mesh[2].TextureCoordinate = new Vector2(0f, 1f);
+            mesh[3].TextureCoordinate = new Vector2(1f, 0f);
+            mesh[4].TextureCoordinate = new Vector2(1f, 1f);
+            mesh[5].TextureCoordinate = new Vector2(0f, 1f);
+
+            mesh[0].Normal = new Vector3(0f, 1f, 0f);
+            mesh[1].Normal = new Vector3(0f, 1f, 0f);
+            mesh[2].Normal = new Vector3(0f, 1f, 0f);
+            mesh[3].Normal = new Vector3(0f, 1f, 0f);
+            mesh[4].Normal = new Vector3(0f, 1f, 0f);
+            mesh[5].Normal = new Vector3(0f, 1f, 0f);
+        }
 
         public void Tick(GameTime gameTime,Map map)
         {

@@ -18,6 +18,8 @@ namespace Game3
         public Tileset TextureInfo;
 
         public VertexPositionNormalTexture[] mesh;
+
+        public Vector3 spawnLocation;
         public void generate()
         {
             Hitbox = new int[Tiles.GetLength(0)-1,Tiles.GetLength(1)-1];
@@ -48,6 +50,8 @@ namespace Game3
                         mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % coloms) * withTile            , (currentId /coloms) * HeightTile  + HeightTile);
                         mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile);
                         mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile  + HeightTile);
+
+
                     }
                     else
                     {
@@ -65,6 +69,18 @@ namespace Game3
                         mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile, (currentId / coloms) * HeightTile + HeightTile);
                         mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % coloms) * withTile           , (currentId / coloms) * HeightTile + HeightTile);
                     }
+
+                    Vector3 normal = calculateNormalPoint(mesh[(j * width + i) * 6].Position, mesh[(j * width + i) * 6 + 1].Position, mesh[(j * width + i) * 6 + 2].Position);
+
+                    mesh[(j * width + i) * 6].Normal = normal*-1;
+                    mesh[(j * width + i) * 6 + 2].Normal = normal * -1;
+                    mesh[(j * width + i) * 6 + 1].Normal = normal * -1;
+
+                    normal = calculateNormalPoint(mesh[(j * width + i) * 6 + 3].Position, mesh[(j * width + i) * 6 + 4].Position, mesh[(j * width + i) * 6 + 5].Position);
+
+                    mesh[(j * width + i) * 6 + 3].Normal = normal * -1;
+                    mesh[(j * width + i) * 6 + 4].Normal = normal * -1;
+                    mesh[(j * width + i) * 6 + 5].Normal = normal * -1;
 
                     Hitbox[i, j] = Tiles[i, j] == Tiles[i + 1, j]  && Tiles[i, j + 1] == Tiles[i + 1, j + 1] && Tiles[i, j] == Tiles[i + 1, j + 1] ? 0 : 1 ;
                 }
@@ -149,10 +165,11 @@ namespace Game3
                             Tiles[i, j + 1] = Tiles[i, j] + 1;
                             Tiles[i + 1, j + 1] = Tiles[i, j] + 1;
                             break;
-                        default:
+                        case 14:
                             Tiles[i + 1, j] = Tiles[i, j] ;
                             Tiles[i, j + 1] = Tiles[i, j] ;
-                            Tiles[i + 1, j + 1] = Tiles[i, j] ;
+                            Tiles[i + 1, j + 1] = Tiles[i, j];
+                            spawnLocation = new Vector3(j + 0.5f, Tiles[i, j], i + 0.5f);
                             break;
 
                     }
@@ -190,6 +207,16 @@ namespace Game3
 
             TextureInfo = obj.tilesets[0];
             generate();
+        }
+
+        Vector3 calculateNormalPoint(Vector3 point,Vector3 point1 , Vector3 point2)
+        {
+            Vector3 v = point1 - point;
+            Vector3 s = point2 - point;
+
+            Vector3 T = Vector3.Cross(v, s);
+            T.Normalize();
+            return T;
         }
     }
 }

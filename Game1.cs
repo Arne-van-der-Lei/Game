@@ -21,6 +21,7 @@ namespace Game3
         Effect effectOur;
         int sunKelvin;
         bool sunbool;
+        Vector3 sunVector;
 
         public Game1()
         {
@@ -49,27 +50,11 @@ namespace Game3
             //avatar model
 
             avatar = new Avatar();
-            avatar.mesh = new VertexPositionTexture[6];
-            avatar.mesh[0].Position = new Vector3(-.5f, 1f, -.5f);
-            avatar.mesh[1].Position = new Vector3( .5f, 1f, -.5f);
-            avatar.mesh[2].Position = new Vector3(-.5f, 0f,  .5f);
-
-            avatar.mesh[3].Position = new Vector3( .5f, 1f, -.5f);
-            avatar.mesh[4].Position = new Vector3( .5f, 0f,  .5f);
-            avatar.mesh[5].Position = new Vector3(-.5f, 0f,  .5f);
-
-            avatar.mesh[0].TextureCoordinate = new Vector2(0f, 0f);
-            avatar.mesh[1].TextureCoordinate = new Vector2(1f, 0f);
-            avatar.mesh[2].TextureCoordinate = new Vector2(0f, 1f);
-            avatar.mesh[3].TextureCoordinate = new Vector2(1f, 0f);
-            avatar.mesh[4].TextureCoordinate = new Vector2(1f, 1f);
-            avatar.mesh[5].TextureCoordinate = new Vector2(0f, 1f);
-
 
             //avatar + cam ofset
             distance = 3;
 
-            sunKelvin = 60*60*6;
+            sunKelvin = 60*60*18;
             sunbool = true;
             //shader
             effect = new BasicEffect(GraphicsDevice);
@@ -89,16 +74,16 @@ namespace Game3
             String jsonString = File.ReadAllText("content/map_1.json");
             MapTiled maptiled = JsonConvert.DeserializeObject<MapTiled>(jsonString);
 
-
+            sunVector = new Vector3(1f,-1f,1f);
+            sunVector.Normalize();
             //init mapdata
             map = new Map();
             map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
             map.initialize(maptiled);
             
-            avatar.avatarPos = new Vector3(9.5f, map.Tiles[10, 10], 9.5f);
+            avatar.avatarPos = map.spawnLocation;
             avatar.texture = Content.Load<Texture2D>("Sprites\\Characters_NPCs\\Main_char_placeholder");
             effectOur = Content.Load<Effect>("Shaders\\BasicShader");
-            
         }
 
         /// <summary>
@@ -143,6 +128,8 @@ namespace Game3
                 sunbool = true;
             }
 
+            sunVector.X = (float)Math.Cos((double)(sunKelvin / (60d * 60d * 12d))* Math.PI );
+            sunVector.Y = (float)Math.Sin((double)(sunKelvin / (60d * 60d * 12d))* Math.PI );
             base.Update(gameTime);
         }
 
@@ -176,6 +163,7 @@ namespace Game3
             effectOur.Parameters["WorldViewProjection"].SetValue(effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(map.Texture);
             effectOur.Parameters["sunColor"].SetValue(sunKelvin);
+            effectOur.Parameters["sunNormal"].SetValue(sunVector);
             foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
                 pass.Apply();
