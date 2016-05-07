@@ -78,7 +78,7 @@ namespace Game3
             sunVector.Normalize();
             //init mapdata
             map = new Map();
-            map.Texture = Content.Load<Texture2D>(maptiled.tilesets[0].name);
+            map.Texture = Content.Load<Texture2D>("Tilesheets\\" + maptiled.tilesets[0].name);
             map.initialize(maptiled);
             
             avatar.avatarPos = map.spawnLocation;
