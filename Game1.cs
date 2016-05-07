@@ -56,7 +56,7 @@ namespace Game3
 
             sunKelvin = 60*60*18;
             sunbool = true;
-            //shader
+            //shader 
             effect = new BasicEffect(GraphicsDevice);
             base.Initialize();
         }
@@ -82,7 +82,7 @@ namespace Game3
             map.initialize(maptiled);
             
             avatar.avatarPos = map.spawnLocation;
-            avatar.texture = Content.Load<Texture2D>("Sprites\\Characters_NPCs\\Main_char_placeholder");
+            avatar.texture = Content.Load<Texture2D>("Sprites\\Characters_NPCs\\Main_char_walking_animation");
             effectOur = Content.Load<Effect>("Shaders\\BasicShader");
         }
 
@@ -162,7 +162,6 @@ namespace Game3
         {
             effectOur.Parameters["WorldViewProjection"].SetValue(effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(map.Texture);
-            effectOur.Parameters["sunColor"].SetValue(sunKelvin);
             effectOur.Parameters["sunNormal"].SetValue(sunVector);
             foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
