@@ -18,6 +18,7 @@ namespace Game3
         public Tileset TextureInfo;
 
         public VertexPositionNormalTexture[] mesh;
+        public VertexPositionNormalTexture[] TreeMesh;
 
         public Vector3 spawnLocation;
         public void generate()
@@ -50,8 +51,6 @@ namespace Game3
                         mesh[(j * width + i) * 6 + 3].TextureCoordinate = new Vector2((currentId % coloms) * withTile            , (currentId /coloms) * HeightTile  + HeightTile);
                         mesh[(j * width + i) * 6 + 4].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile);
                         mesh[(j * width + i) * 6 + 5].TextureCoordinate = new Vector2((currentId % coloms) * withTile + withTile , (currentId /coloms) * HeightTile  + HeightTile);
-
-
                     }
                     else
                     {
@@ -72,7 +71,7 @@ namespace Game3
 
                     Vector3 normal = calculateNormalPoint(mesh[(j * width + i) * 6].Position, mesh[(j * width + i) * 6 + 1].Position, mesh[(j * width + i) * 6 + 2].Position);
 
-                    mesh[(j * width + i) * 6].Normal = normal*-1;
+                    mesh[(j * width + i) * 6].Normal = normal * -1;
                     mesh[(j * width + i) * 6 + 2].Normal = normal * -1;
                     mesh[(j * width + i) * 6 + 1].Normal = normal * -1;
 
@@ -196,6 +195,7 @@ namespace Game3
             Tiles = new int[height + 1, width + 1];
             createHeightMap(width, height);
 
+
             layer = obj.layers[0];
             for (int i = 0; i < height; i++)
             {
@@ -206,7 +206,10 @@ namespace Game3
             }
 
             TextureInfo = obj.tilesets[0];
+
             generate();
+
+            GenerateStatic(obj.layers[2], obj.tilesets[2]);
         }
 
         Vector3 calculateNormalPoint(Vector3 point,Vector3 point1 , Vector3 point2)
@@ -217,6 +220,56 @@ namespace Game3
             Vector3 T = Vector3.Cross(v, s);
             T.Normalize();
             return T;
+        }
+
+        void GenerateStatic(Layer layer,Tileset tileset)
+        {
+            TreeMesh = new VertexPositionNormalTexture[layer.data.Length * 3];
+            int index = 0;
+
+            int coloms = TextureInfo.imagewidth / TextureInfo.tilewidth;
+            int rows = TextureInfo.imageheight / TextureInfo.tileheight;
+            float WithTile = 1.0f / coloms, HeightTile = 1.0f / rows;
+
+            for (int i = 0; i < layer.width; i++)
+            {
+                for(int j = 0; j < layer.height; j++)
+                {
+                    int data = layer.data[j * layer.width + i] - tileset.firstgid;
+                    switch (data )
+                    {
+                        case 0:
+                            TreeMesh[index].Position     = new Vector3(i - 1, Tiles[i, j] + 3, j - 2);
+                            TreeMesh[index + 2].Position = new Vector3(i - 1, Tiles[i, j]    , j + 1);
+                            TreeMesh[index + 1].Position = new Vector3(i + 2, Tiles[i, j] + 3, j - 2);
+                            TreeMesh[index + 3].Position = new Vector3(i - 1, Tiles[i, j]    , j + 1);
+                            TreeMesh[index + 5].Position = new Vector3(i + 2, Tiles[i, j]    , j + 1);
+                            TreeMesh[index + 4].Position = new Vector3(i + 2, Tiles[i, j] + 3, j - 2);
+
+                            TreeMesh[index].TextureCoordinate = new Vector2(0, 9*HeightTile);
+                            TreeMesh[index + 2].TextureCoordinate = new Vector2(0, 15*HeightTile);
+                            TreeMesh[index + 1].TextureCoordinate = new Vector2(5*WithTile , 9*HeightTile);
+                            TreeMesh[index + 3].TextureCoordinate = new Vector2(0 , 15*HeightTile);
+                            TreeMesh[index + 5].TextureCoordinate = new Vector2(5*WithTile , 15*HeightTile);
+                            TreeMesh[index + 4].TextureCoordinate = new Vector2(5*WithTile , 9* HeightTile);
+
+                            TreeMesh[index].Normal = new Vector3(0, 1, 0);
+                            TreeMesh[index + 1].Normal = new Vector3(0, 1, 0);
+                            TreeMesh[index + 2].Normal = new Vector3(0, 1, 0);
+                            TreeMesh[index + 3].Normal = new Vector3(0, 1, 0);
+                            TreeMesh[index + 4].Normal = new Vector3(0, 1, 0);
+                            TreeMesh[index + 5].Normal = new Vector3(0, 1, 0);
+
+                            Hitbox[j, i] = 1;
+                            break;
+                    }
+                    
+                    if (data != -tileset.firstgid)
+                    {
+                        index += 6;
+                    }
+                }
+            }
         }
     }
 }

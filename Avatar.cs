@@ -31,13 +31,13 @@ namespace Game3
         {
 
             mesh = new VertexPositionNormalTexture[6];
-            mesh[0].Position = new Vector3(-1f, 1f, 0f);
-            mesh[1].Position = new Vector3( 1f, 1f, 0f);
-            mesh[2].Position = new Vector3(-1f, 0f, 1f);
+            mesh[0].Position = new Vector3(-.7f, 1f, 0f);
+            mesh[1].Position = new Vector3(.7f, 1f, 0f);
+            mesh[2].Position = new Vector3(-.7f, 0f, 1f);
 
-            mesh[3].Position = new Vector3( 1f, 1f, 0f);
-            mesh[4].Position = new Vector3( 1f, 0f, 1f);
-            mesh[5].Position = new Vector3(-1f, 0f, 1f);
+            mesh[3].Position = new Vector3(.7f, 1f, 0f);
+            mesh[4].Position = new Vector3(.7f, 0f, 1f);
+            mesh[5].Position = new Vector3(-.7f, 0f, 1f);
 
             mesh[0].TextureCoordinate = new Vector2(0f, 0f);
             mesh[1].TextureCoordinate = new Vector2(1/8f, 0f);
@@ -148,6 +148,18 @@ namespace Game3
                 mesh[4].TextureCoordinate = new Vector2(frame * 1 / 8f, 1f);
                 mesh[5].TextureCoordinate = new Vector2(frame * 1 / 8f + 1 / 8f, 1f);
             }
+        }
+
+        public VertexPositionNormalTexture[] getMesh()
+        {
+            VertexPositionNormalTexture[] meshcopy = new VertexPositionNormalTexture[mesh.Length];
+            mesh.CopyTo(meshcopy,0);
+            for (int i = 0; i < meshcopy.Length; i++)
+            {
+                meshcopy[i].Position += avatarPos;
+            }
+
+            return meshcopy;
         }
     }
 }

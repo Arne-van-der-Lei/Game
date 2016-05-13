@@ -56,6 +56,7 @@ namespace Game3
 
             sunKelvin = 60*60*18;
             sunbool = true;
+
             //shader 
             effect = new BasicEffect(GraphicsDevice);
             base.Initialize();
@@ -154,7 +155,6 @@ namespace Game3
 
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             DrawGround();
-            DrawAvatar();
             base.Draw(gameTime);
         }
 
@@ -163,19 +163,16 @@ namespace Game3
             effectOur.Parameters["WorldViewProjection"].SetValue(effect.View * effect.Projection);
             effectOur.Parameters["TextureSampler"].SetValue(map.Texture);
             effectOur.Parameters["sunNormal"].SetValue(sunVector);
+
             foreach (var pass in effectOur.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,map.mesh,0,map.mesh.GetLength(0)/3);
-            }
-        }
+                graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, map.mesh, 0, map.mesh.GetLength(0) / 3);
+                graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, map.TreeMesh, 0, map.TreeMesh.GetLength(0) / 3);
 
-        void DrawAvatar()
-        {
-            effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos) * effect.View * effect.Projection);
-            effectOur.Parameters["TextureSampler"].SetValue(avatar.texture);
-            foreach (var pass in effectOur.CurrentTechnique.Passes)
-            {
+                effectOur.Parameters["WorldViewProjection"].SetValue(Matrix.CreateTranslation(avatar.avatarPos) * effect.View * effect.Projection);
+                effectOur.Parameters["TextureSampler"].SetValue(avatar.texture);
+
                 pass.Apply();
                 graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList, avatar.mesh, 0, avatar.mesh.GetLength(0) / 3);
             }

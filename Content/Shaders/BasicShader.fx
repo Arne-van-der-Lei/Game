@@ -14,7 +14,6 @@ float4 sunNormal;
 struct VertexShaderInput
 {
 	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
 	float2 Texture : TEXCOORD0;
 	float4 Normal : NORMAL0;
 };
@@ -22,8 +21,8 @@ struct VertexShaderInput
 struct VertexShaderOutput
 {
 	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
 	float2 Texture : TEXCOORD0;
+	float4 Normal : COLOR0;
 };
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
@@ -31,20 +30,21 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 	VertexShaderOutput output = (VertexShaderOutput)0;
 
 	output.Position = mul(input.Position, WorldViewProjection);
-	output.Color = input.Color;
 	output.Texture = input.Texture;
-	output.Color = input.Normal;
+	output.Normal = input.Normal;
 	return output;
 }
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	float4 normal = input.Color;
-	input.Color = tex2D(TextureSampler, input.Texture.xy);
-	float alpha = input.Color.w;
-	input.Color = input.Color * max(0.1,dot(normal, sunNormal * -1));
-	input.Color.w = alpha;
-	return input.Color;
+	float4 Color = tex2D(TextureSampler, input.Texture.xy);
+	float alpha = Color.w;
+	Color = Color * saturate(dot(input.Normal, sunNormal * -1));
+	Color.w = alpha;
+	Color.x /= 1.3;
+	Color.y /= 1.1;
+	Color.z /= 1;
+	return Color;
 }
 
 technique gameShaderBase
