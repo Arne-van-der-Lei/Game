@@ -1,0 +1,4 @@
+-Soft, limited shadows, changing with time of the day, colors also change acording to time of the day.
+
+
+- colors and contrast changes during dusk,morning, midday, evening, and dawn, this can be done by applying what i call a (photofilter) over the screen.

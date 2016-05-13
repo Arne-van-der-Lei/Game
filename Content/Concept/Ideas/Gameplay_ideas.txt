@@ -1,0 +1,11 @@
+- npc's and caracters age when time passes, you age too, but you're immortal (part of the story) so at the end of you life cycle, you can return to a specific place to rejuvenate, and become stronger than before. Stats change according to age. It's an ambitious idea, but in theory its possible by creating a base body for the npc's, and a wide variety of assets.
+
+- around every town is a boss. if the boss is defeated and if you do certain things, the towns can grow over time, becoming larger and opening new shops. If the boss is left undefeated for a long time, the town might become a rogue town, where criminals, shady cults, and ilegal smuggling happens. (again pretty ambitious)
+
+- full out fighting will happen only inside the minds of your opponents. this synchronises well with the story of a supernatural doctor. When fighting bosses, you first have to wear them out a little, when they get tired, you can enter their minds, and start going trough various randomly generated "floors", at the end of each floor you get the choice of 2 doors, these 2 doors can say a wide variety of things, for example,"50% to skip 4 floors, or drop 4 floors" or "40% chance to find treasure, but 60% chance to enter a nest of enemies" at the end, you find the boss and there you can completely defeat him.
+
+- abilities could work as following: melee, weapons, and magic. when a certain level of skill is reached in one of these skill trees, the basic attacks become more powerful to keep up with the rest. you can combine different skill branches to create your own style, for example: magic "fire"+ weapons "blade"= ranged fire attack, melee + weapons = short range, precise attacks.
+
+- camping: at the end of the day, you can camp in a spot of your choice, when you do this, you use one unit of camping supplies. this mechanic makes it so you can't infinitely skip days, you have to be careful with your resources.
+
+- Your ship, wich you can upgrade. Functions as sort of a house, and base. When on sea, time passes much more quickly.
